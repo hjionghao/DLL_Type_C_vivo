@@ -12,6 +12,7 @@
 
 using namespace std;
 
+
 class CONNET_PORT {
 public:
 	HANDLE hComm;
