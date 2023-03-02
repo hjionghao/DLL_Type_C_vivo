@@ -82,18 +82,85 @@ _declspec(dllexport) const char* fw_version()
 
 /*
 		/// <summary>
-		/// Õı²å²âÊÔ
-		/// º¯Êı½Ó¿Ú·µ»ØÖµ£¬µ±²âÊÔPASS,·µ»Ø0£»µ±²âÊÔÊ§°ÜÊ±£¬·µ»Ø·ÇÁãµÄ´íÎóÂë¡£
-		/// ĞèÒªÌá¹©ËùÓĞ´íÎóÂë¶ÔÓ¦µÄÖĞ¡¢Ó¢ÎÄµÄ´íÎóÃèÊöĞÅÏ¢¶ÔÕÕ±í¡£
+		/// æ­£æ’æµ‹è¯•
+		/// å‡½æ•°æ¥å£è¿”å›å€¼ï¼Œå½“æµ‹è¯•PASS,è¿”å›0ï¼›å½“æµ‹è¯•å¤±è´¥æ—¶ï¼Œè¿”å›éé›¶çš„é”™è¯¯ç ã€‚
+		/// éœ€è¦æä¾›æ‰€æœ‰é”™è¯¯ç å¯¹åº”çš„ä¸­ã€è‹±æ–‡çš„é”™è¯¯æè¿°ä¿¡æ¯å¯¹ç…§è¡¨ã€‚
 		/// </summary>
-		/// <param name="usbVer">Ö¸¶¨²âÊÔµÄÄÚÈİ£º1:PIN test; 2:USB2.0 Test; 3:USB3.0</param>
-		/// <returns>0£ºPass; ·Ç0£ºÊ§°Ü</returns>
+		/// <param name="usbVer">æŒ‡å®šæµ‹è¯•çš„å†…å®¹ï¼š1:PIN test; 2:USB2.0 Test; 3:USB3.0</param>
+		/// <returns>0ï¼šPass; é0ï¼šå¤±è´¥</returns>
 		public int comTypeCTestTop(TypeC_Flag flag);
 */
+//
+//_declspec(dllexport) int comTypeCTestTop(int usbVer, int delay_ms)
+//{
+//	// åˆ¤æ–­å…¥å£å‚æ•°ï¼›
+//
+//
+//	int pin_test_flag = 0;
+//	char top_debug_info[200]{};
+//
+//	if (1 == usbVer)
+//	{
+//		string ret_GND = TestCommand("[1]pin test(GND)\r\n");
+//		int ret_find = ret_GND.find("PASS");
+//		if (ret_find == string::npos)
+//			return -10;
+//		else
+//			pin_test_flag += 1;
+//
+//		string ret_GND_selftest = TestCommand("[2]pin test(VBUS)\r\n");
+//		ret_find = ret_GND_selftest.find("PASS");
+//		if (ret_find == string::npos)
+//			return -11;
+//		else
+//			pin_test_flag += 1;
+//
+//		if (2 == pin_test_flag)
+//			return 0;
+//	}
+//	else if (2 == usbVer)
+//	{
+//		char cmd[100]{};
+//		sprintf_s(cmd, 100, "[3]otg usb2_0 test(top, %d)\r\n", delay_ms);
+//		const char* real_cmd = cmd;
+//		string ret_usb2_0_top = TestCommand(real_cmd);
+//
+//		sprintf_s(top_debug_info, 200, "%s\r\n", ret_usb2_0_top);
+//		//strncpy_s(usb_debug_info, 200, top_debug_info, (strlen(top_debug_info) + 1));
+//
+//		int ret_find = ret_usb2_0_top.find("PASS");
+//		if (ret_find == string::npos)
+//			return -12;
+//		else
+//			return 0;
+//	}
+//	else if (3 == usbVer)
+//	{
+//		char cmd[100]{};
+//		sprintf_s(cmd, 100, "[4]otg usb3_0 test(top, %d)\r\n", delay_ms);
+//		const char* real_cmd = cmd;
+//		string ret_usb3_0_top = TestCommand(real_cmd);
+//
+//		sprintf_s(top_debug_info, 200, "%s\r\n", ret_usb3_0_top);
+//		//strncpy_s(usb_debug_info, 200, top_debug_info, (strlen(top_debug_info) + 1));
+//
+//		//cout << usb_debug_info << endl;
+//		int ret_find = ret_usb3_0_top.find("PASS");
+//		if (ret_find == string::npos)
+//			return -13;
+//		else
+//			return 0;
+//	}
+//	else
+//	{
+//		return -2;
+//	}
+//}
 
-_declspec(dllexport) int comTypeCTestTop(int usbVer, char* usb_debug_info)
+
+_declspec(dllexport) int comTypeCTestTop(int usbVer)
 {
-	// ÅĞ¶ÏÈë¿Ú²ÎÊı£»
+	// åˆ¤æ–­å…¥å£å‚æ•°ï¼›
 
 
 	int pin_test_flag = 0;
@@ -120,10 +187,13 @@ _declspec(dllexport) int comTypeCTestTop(int usbVer, char* usb_debug_info)
 	}
 	else if (2 == usbVer)
 	{
-		string ret_usb2_0_top = TestCommand("[3]otg usb2_0 test(top)\r\n");
+		char cmd[100]{};
+		sprintf_s(cmd, 100, "[3]otg usb2_0 test(top)\r\n");
+		const char* real_cmd = cmd;
+		string ret_usb2_0_top = TestCommand(real_cmd);
 
 		sprintf_s(top_debug_info, 200, "%s\r\n", ret_usb2_0_top);
-		strncpy_s(usb_debug_info, 200, top_debug_info, (strlen(top_debug_info) + 1));
+		//strncpy_s(usb_debug_info, 200, top_debug_info, (strlen(top_debug_info) + 1));
 
 		int ret_find = ret_usb2_0_top.find("PASS");
 		if (ret_find == string::npos)
@@ -133,10 +203,13 @@ _declspec(dllexport) int comTypeCTestTop(int usbVer, char* usb_debug_info)
 	}
 	else if (3 == usbVer)
 	{
-		string ret_usb3_0_top = TestCommand("[4]otg usb3_0 test(top)\r\n");
+		char cmd[100]{};
+		sprintf_s(cmd, 100, "[4]otg usb3_0 test(top)\r\n");
+		const char* real_cmd = cmd;
+		string ret_usb3_0_top = TestCommand(real_cmd);
 
 		sprintf_s(top_debug_info, 200, "%s\r\n", ret_usb3_0_top);
-		strncpy_s(usb_debug_info, 200, top_debug_info, (strlen(top_debug_info) + 1));
+		//strncpy_s(usb_debug_info, 200, top_debug_info, (strlen(top_debug_info) + 1));
 
 		//cout << usb_debug_info << endl;
 		int ret_find = ret_usb3_0_top.find("PASS");
@@ -154,17 +227,83 @@ _declspec(dllexport) int comTypeCTestTop(int usbVer, char* usb_debug_info)
 
 /*
 		/// <summary>
-		/// ·´²å²âÊÔ
-		/// º¯Êı½Ó¿Ú·µ»ØÖµ£¬µ±²âÊÔPASS,·µ»Ø0£»µ±²âÊÔÊ§°ÜÊ±£¬·µ»Ø·ÇÁãµÄ´íÎóÂë¡£
-		/// ĞèÒªÌá¹©ËùÓĞ´íÎóÂë¶ÔÓ¦µÄÖĞ¡¢Ó¢ÎÄµÄ´íÎóÃèÊöĞÅÏ¢¶ÔÕÕ±í¡£
+		/// åæ’æµ‹è¯•
+		/// å‡½æ•°æ¥å£è¿”å›å€¼ï¼Œå½“æµ‹è¯•PASS,è¿”å›0ï¼›å½“æµ‹è¯•å¤±è´¥æ—¶ï¼Œè¿”å›éé›¶çš„é”™è¯¯ç ã€‚
+		/// éœ€è¦æä¾›æ‰€æœ‰é”™è¯¯ç å¯¹åº”çš„ä¸­ã€è‹±æ–‡çš„é”™è¯¯æè¿°ä¿¡æ¯å¯¹ç…§è¡¨ã€‚
 		/// </summary>
-		/// <param name="usbVer">Ö¸¶¨²âÊÔµÄÄÚÈİ£º1:PIN test; 2:USB2.0 Test; 3:USB3.0</param>
-		/// <returns>0£ºPass; ·Ç0£ºÊ§°Ü</returns>
+		/// <param name="usbVer">æŒ‡å®šæµ‹è¯•çš„å†…å®¹ï¼š1:PIN test; 2:USB2.0 Test; 3:USB3.0</param>
+		/// <returns>0ï¼šPass; é0ï¼šå¤±è´¥</returns>
 		public int comTypeCTestBot(TypeC_Flag flag);
 */
-_declspec(dllexport) int comTypeCTestBot(int usbVer, char* usb_debug_info)
+//_declspec(dllexport) int comTypeCTestBot(int usbVer, int delay_ms)
+//{
+//	// åˆ¤æ–­å…¥å£å‚æ•°ï¼›
+//
+//	int pin_test_flag = 0;
+//	char bot_debug_info[200]{};
+//
+//	if (1 == usbVer)
+//	{
+//		string ret_GND = TestCommand("[5]pin test(GND)\r\n");
+//		int ret_find = ret_GND.find("PASS");
+//		if (ret_find == string::npos)
+//			return -10;
+//		else
+//			pin_test_flag += 1;
+//
+//		string ret_GND_selftest = TestCommand("[6]pin test(VBUS)\r\n");
+//		ret_find = ret_GND_selftest.find("PASS");
+//		if (ret_find == string::npos)
+//			return -11;
+//		else
+//			pin_test_flag += 1;
+//
+//		if (2 == pin_test_flag)
+//			return 0;
+//	}
+//	else if (2 == usbVer)
+//	{
+//		char cmd[100]{};
+//		sprintf_s(cmd, 100, "[7]otg usb2_0 test(bot, %d)\r\n", delay_ms);
+//		const char* real_cmd = cmd;
+//		string ret_usb2_0_bot = TestCommand(real_cmd);
+//
+//		sprintf_s(bot_debug_info, 200, "%s\r\n", ret_usb2_0_bot);
+//		//strncpy_s(usb_debug_info, 200, bot_debug_info, (strlen(bot_debug_info) + 1));
+//
+//		int ret_find = ret_usb2_0_bot.find("PASS");
+//		if (ret_find == string::npos)
+//			return -14;
+//		else
+//			return 0;
+//	}
+//	else if (3 == usbVer)
+//	{
+//		char cmd[100]{};
+//		sprintf_s(cmd, 100, "[8]otg usb3_0 test(bot, %d)\r\n", delay_ms);
+//		const char* real_cmd = cmd;
+//		string ret_usb3_0_bot = TestCommand(real_cmd);
+//
+//		sprintf_s(bot_debug_info, 200, "%s\r\n", ret_usb3_0_bot);
+//		//strncpy_s(usb_debug_info, 200, bot_debug_info, (strlen(bot_debug_info) + 1));
+//
+//		//cout << ret_usb3_0_bot << endl;
+//		int ret_find = ret_usb3_0_bot.find("PASS");
+//		if (ret_find == string::npos)
+//			return -15;
+//		else
+//			return 0;
+//	}
+//	else
+//	{
+//		return -2;
+//	}
+//}
+
+
+_declspec(dllexport) int comTypeCTestBot(int usbVer)
 {
-	// ÅĞ¶ÏÈë¿Ú²ÎÊı£»
+	// åˆ¤æ–­å…¥å£å‚æ•°ï¼›
 
 	int pin_test_flag = 0;
 	char bot_debug_info[200]{};
@@ -190,10 +329,13 @@ _declspec(dllexport) int comTypeCTestBot(int usbVer, char* usb_debug_info)
 	}
 	else if (2 == usbVer)
 	{
-		string ret_usb2_0_bot = TestCommand("[7]otg usb2_0 test(bot)\r\n");
+		char cmd[100]{};
+		sprintf_s(cmd, 100, "[7]otg usb2_0 test(bot)\r\n");
+		const char* real_cmd = cmd;
+		string ret_usb2_0_bot = TestCommand(real_cmd);
 
 		sprintf_s(bot_debug_info, 200, "%s\r\n", ret_usb2_0_bot);
-		strncpy_s(usb_debug_info, 200, bot_debug_info, (strlen(bot_debug_info) + 1));
+		//strncpy_s(usb_debug_info, 200, bot_debug_info, (strlen(bot_debug_info) + 1));
 
 		int ret_find = ret_usb2_0_bot.find("PASS");
 		if (ret_find == string::npos)
@@ -203,10 +345,13 @@ _declspec(dllexport) int comTypeCTestBot(int usbVer, char* usb_debug_info)
 	}
 	else if (3 == usbVer)
 	{
-		string ret_usb3_0_bot = TestCommand("[8]otg usb3_0 test(bot)\r\n");
+		char cmd[100]{};
+		sprintf_s(cmd, 100, "[8]otg usb3_0 test(bot)\r\n");
+		const char* real_cmd = cmd;
+		string ret_usb3_0_bot = TestCommand(real_cmd);
 
 		sprintf_s(bot_debug_info, 200, "%s\r\n", ret_usb3_0_bot);
-		strncpy_s(usb_debug_info, 200, bot_debug_info, (strlen(bot_debug_info) + 1));
+		//strncpy_s(usb_debug_info, 200, bot_debug_info, (strlen(bot_debug_info) + 1));
 
 		//cout << ret_usb3_0_bot << endl;
 		int ret_find = ret_usb3_0_bot.find("PASS");
@@ -221,24 +366,23 @@ _declspec(dllexport) int comTypeCTestBot(int usbVer, char* usb_debug_info)
 	}
 }
 
-
 /*
 		/// <summary>
-		/// DisplayPortÕı²å²âÊÔ
-		/// º¯Êı½Ó¿Ú·µ»ØÖµ£¬µ±²âÊÔPASS,·µ»Ø0£»µ±²âÊÔÊ§°ÜÊ±£¬·µ»Ø·ÇÁãµÄ´íÎóÂë¡£
-		/// ĞèÒªÌá¹©ËùÓĞ´íÎóÂë¶ÔÓ¦µÄÖĞ¡¢Ó¢ÎÄµÄ´íÎóÃèÊöĞÅÏ¢¶ÔÕÕ±í¡£
+		/// DisplayPortæ­£æ’æµ‹è¯•
+		/// å‡½æ•°æ¥å£è¿”å›å€¼ï¼Œå½“æµ‹è¯•PASS,è¿”å›0ï¼›å½“æµ‹è¯•å¤±è´¥æ—¶ï¼Œè¿”å›éé›¶çš„é”™è¯¯ç ã€‚
+		/// éœ€è¦æä¾›æ‰€æœ‰é”™è¯¯ç å¯¹åº”çš„ä¸­ã€è‹±æ–‡çš„é”™è¯¯æè¿°ä¿¡æ¯å¯¹ç…§è¡¨ã€‚
 		/// </summary>
 		/// <param name="linkRate">LinkRate</param>
 		/// <param name="laneCount">LaneCount</param>
-		/// <sparam name="resolution_X">Êä³öÊÓÆµ×î´ó·Ö±æÂÊµÄË®Æ½·Ö±æÂÊÖµ</param>
-		/// <param name="resolution_Y">Êä³öÊÓÆµ×î´ó·Ö±æÂÊµÄ´¹Ö±·Ö±æÂÊÖµ</param>
-		/// <param name="frameRate">Êä³öÊÓÆµ×î´óÖ¡ÂÊÖµ</param>
-		/// <returns>0£ºPass; ·Ç0£ºÊ§°Ü</returns>
+		/// <sparam name="resolution_X">è¾“å‡ºè§†é¢‘æœ€å¤§åˆ†è¾¨ç‡çš„æ°´å¹³åˆ†è¾¨ç‡å€¼</param>
+		/// <param name="resolution_Y">è¾“å‡ºè§†é¢‘æœ€å¤§åˆ†è¾¨ç‡çš„å‚ç›´åˆ†è¾¨ç‡å€¼</param>
+		/// <param name="frameRate">è¾“å‡ºè§†é¢‘æœ€å¤§å¸§ç‡å€¼</param>
+		/// <returns>0ï¼šPass; é0ï¼šå¤±è´¥</returns>
 		public int comDisplayPortTopTest(LinkeRate linkRate,int laneCount, out double resolution_X, out double resolution_Y, out double frameRate);
 */
 _declspec(dllexport) int comDisplayPortTopTest(const char* linkRate, int laneCount, double* resolution_X, double* resolution_Y, double* frameRate, char* dp_debug_info)
 {
-	// Èë¿Ú²ÎÊıÅĞ¶Ï
+	// å…¥å£å‚æ•°åˆ¤æ–­
 
 	char debug_info[300]{};
 
@@ -258,6 +402,11 @@ _declspec(dllexport) int comDisplayPortTopTest(const char* linkRate, int laneCou
 	//cout << "DP debug info:" << debug_info << endl;
 	//cout << strlen(debug_info) << endl;
 	strncpy_s(dp_debug_info, 300, debug_info, (strlen(debug_info) + 1));
+	// cout << "before strncpy_s" << endl;
+	// cout << strlen(debug_info) << endl;
+
+	// strncpy_s(dp_debug_info, 30, debug_info, (strlen(debug_info) + 1));
+	// cout << "after strncpy_s" << endl;
 
 	int ret_find = ret_dp_bot.find("PASS");
 	if (ret_find == string::npos)
@@ -305,21 +454,21 @@ _declspec(dllexport) int comDisplayPortTopTest(const char* linkRate, int laneCou
 
 /*
 		/// <summary>
-		/// DisplayPort·´²å²âÊÔ
-		/// º¯Êı½Ó¿Ú·µ»ØÖµ£¬µ±²âÊÔPASS,·µ»Ø0£»µ±²âÊÔÊ§°ÜÊ±£¬·µ»Ø·ÇÁãµÄ´íÎóÂë¡£
-		/// ĞèÒªÌá¹©ËùÓĞ´íÎóÂë¶ÔÓ¦µÄÖĞ¡¢Ó¢ÎÄµÄ´íÎóÃèÊöĞÅÏ¢¶ÔÕÕ±í¡£
+		/// DisplayPortåæ’æµ‹è¯•
+		/// å‡½æ•°æ¥å£è¿”å›å€¼ï¼Œå½“æµ‹è¯•PASS,è¿”å›0ï¼›å½“æµ‹è¯•å¤±è´¥æ—¶ï¼Œè¿”å›éé›¶çš„é”™è¯¯ç ã€‚
+		/// éœ€è¦æä¾›æ‰€æœ‰é”™è¯¯ç å¯¹åº”çš„ä¸­ã€è‹±æ–‡çš„é”™è¯¯æè¿°ä¿¡æ¯å¯¹ç…§è¡¨ã€‚
 		/// </summary>
 		/// <param name="linkRate">LinkRate</param>
 		/// <param name="laneCount">LaneCount</param>
-		/// <param name="resolution_X">Êä³öÊÓÆµ×î´ó·Ö±æÂÊµÄË®Æ½·Ö±æÂÊÖµ</param>
-		/// <param name="resolution_Y">Êä³öÊÓÆµ×î´ó·Ö±æÂÊµÄ´¹Ö±·Ö±æÂÊÖµ</param>
-		/// <param name="frameRate">Êä³öÊÓÆµ×î´óÖ¡ÂÊÖµ</param>
-		/// <returns>0£ºPass; ·Ç0£ºÊ§°Ü</returns>
+		/// <param name="resolution_X">è¾“å‡ºè§†é¢‘æœ€å¤§åˆ†è¾¨ç‡çš„æ°´å¹³åˆ†è¾¨ç‡å€¼</param>
+		/// <param name="resolution_Y">è¾“å‡ºè§†é¢‘æœ€å¤§åˆ†è¾¨ç‡çš„å‚ç›´åˆ†è¾¨ç‡å€¼</param>
+		/// <param name="frameRate">è¾“å‡ºè§†é¢‘æœ€å¤§å¸§ç‡å€¼</param>
+		/// <returns>0ï¼šPass; é0ï¼šå¤±è´¥</returns>
 		public int comDisplayPortBotTest(LinkeRate linkRate, int laneCount, out double resolution_X, out double resolution_Y, out double frameRate);
 */
 _declspec(dllexport) int comDisplayPortBotTest(const char* linkRate, int laneCount, double* resolution_X, double* resolution_Y, double* frameRate, char* dp_debug_info)
 {
-	// Èë¿Ú²ÎÊıÅĞ¶Ï
+	// å…¥å£å‚æ•°åˆ¤æ–­
 
 	char debug_info[300]{};
 
@@ -386,16 +535,16 @@ _declspec(dllexport) int comDisplayPortBotTest(const char* linkRate, int laneCou
 }
 
 /// <summary>
-/// PDSink VBUS Õı²å²âÊÔÊä³öµçÑ¹µçÁ÷²âÊÔ
+/// PDSink VBUS æ­£æ’æµ‹è¯•è¾“å‡ºç”µå‹ç”µæµæµ‹è¯•
 /// </summary>
-/// <param name="eLoadCurrent">Ö¸¶¨²âÊÔÄ¿±êÊä³öµçÁ÷</param>
-/// <param name="current">Êµ¼Ê²âÊÔÊä³öµçÁ÷</param>
-/// <param name="voltage">Êµ¼Ê²âÊÔÊä³öµçÑ¹</param>
-/// <param name="delay_ms">ÑÓÊ±Ê±¼ä</param>
-/// <returns>0£ºPass; ·Ç0£ºÊ§°Ü</returns>
+/// <param name="eLoadCurrent">æŒ‡å®šæµ‹è¯•ç›®æ ‡è¾“å‡ºç”µæµ</param>
+/// <param name="current">å®é™…æµ‹è¯•è¾“å‡ºç”µæµ</param>
+/// <param name="voltage">å®é™…æµ‹è¯•è¾“å‡ºç”µå‹</param>
+/// <param name="delay_ms">å»¶æ—¶æ—¶é—´</param>
+/// <returns>0ï¼šPass; é0ï¼šå¤±è´¥</returns>
 _declspec(dllexport) int comPDSinkVBusTestTop(int eLoadCurrent, int* current, int* voltage, int delay_ms)
 {
-	// Èë¿Ú²ÎÊıÅĞ¶Ï
+	// å…¥å£å‚æ•°åˆ¤æ–­
 
 
 	char cmd[100]{};
@@ -449,16 +598,16 @@ _declspec(dllexport) int comPDSinkVBusTestTop(int eLoadCurrent, int* current, in
 }
 
 /// <summary>
-/// PDSink VBUS ·´²å²âÊÔÊä³öµçÑ¹µçÁ÷²âÊÔ
+/// PDSink VBUS åæ’æµ‹è¯•è¾“å‡ºç”µå‹ç”µæµæµ‹è¯•
 /// </summary>
-/// <param name="eLoadCurrent">Ö¸¶¨²âÊÔÄ¿±êÊä³öµçÁ÷</param>
-/// <param name="current">Êµ¼Ê²âÊÔÊä³öµçÁ÷</param>
-/// <param name="voltage">Êµ¼Ê²âÊÔÊä³öµçÑ¹</param>
-/// <param name="delay_ms">ÑÓÊ±Ê±¼ä</param>
-/// <returns>0£ºPass; ·Ç0£ºÊ§°Ü</returns>
+/// <param name="eLoadCurrent">æŒ‡å®šæµ‹è¯•ç›®æ ‡è¾“å‡ºç”µæµ</param>
+/// <param name="current">å®é™…æµ‹è¯•è¾“å‡ºç”µæµ</param>
+/// <param name="voltage">å®é™…æµ‹è¯•è¾“å‡ºç”µå‹</param>
+/// <param name="delay_ms">å»¶æ—¶æ—¶é—´</param>
+/// <returns>0ï¼šPass; é0ï¼šå¤±è´¥</returns>
 _declspec(dllexport) int comPDSinkVBusTestBot(int eLoadCurrent, int* current, int* voltage, int delay_ms)
 {
-	// Èë¿Ú²ÎÊıÅĞ¶Ï
+	// å…¥å£å‚æ•°åˆ¤æ–­
 
 
 	char cmd[100]{};
@@ -513,12 +662,12 @@ _declspec(dllexport) int comPDSinkVBusTestBot(int eLoadCurrent, int* current, in
 
 
 /// <summary>
-/// USB PIN²âÊÔ
-/// º¯Êı½Ó¿Ú·µ»ØÖµ£¬µ±²âÊÔPASS,·µ»Ø0£»µ±²âÊÔÊ§°ÜÊ±£¬·µ»Ø·ÇÁãµÄ´íÎóÂë¡£
-/// ĞèÒªÌá¹©ËùÓĞ´íÎóÂë¶ÔÓ¦µÄÖĞ¡¢Ó¢ÎÄµÄ´íÎóÃèÊöĞÅÏ¢¶ÔÕÕ±í¡£
+/// USB PINæµ‹è¯•
+/// å‡½æ•°æ¥å£è¿”å›å€¼ï¼Œå½“æµ‹è¯•PASS,è¿”å›0ï¼›å½“æµ‹è¯•å¤±è´¥æ—¶ï¼Œè¿”å›éé›¶çš„é”™è¯¯ç ã€‚
+/// éœ€è¦æä¾›æ‰€æœ‰é”™è¯¯ç å¯¹åº”çš„ä¸­ã€è‹±æ–‡çš„é”™è¯¯æè¿°ä¿¡æ¯å¯¹ç…§è¡¨ã€‚
 /// </summary>
-/// <param name="Pin_Flag">Ö¸¶¨²âÊÔµÄÄÚÈİ£º0:GND 1:VBUS</param>
-/// <returns>0£ºPass; ·Ç0£ºÊ§°Ü</returns>
+/// <param name="Pin_Flag">æŒ‡å®šæµ‹è¯•çš„å†…å®¹ï¼š0:GND 1:VBUS</param>
+/// <returns>0ï¼šPass; é0ï¼šå¤±è´¥</returns>
 _declspec(dllexport) int comTypeCPinTest(int Pin_Flag, char* test_value)
 {
 	char ret_value[200] = "";
@@ -627,7 +776,7 @@ _declspec(dllexport) int comTypeCPinTest(int Pin_Flag, char* test_value)
 	}
 	else
 	{
-		//²ÎÊı´íÎó
+		//å‚æ•°é”™è¯¯
 		return -2;
 	}
 
@@ -636,7 +785,7 @@ _declspec(dllexport) int comTypeCPinTest(int Pin_Flag, char* test_value)
 
 
 /// <summary>
-/// TypeC¶ú»úÉèÖÃĞü¿Õ×´Ì¬£¨¼´£º¶ú»ú°Î³ö£©£¬¼´¶ú»úµÄ¸÷¸ö¹Ü½Å¶¼ÖÃ´¦ÓÚĞü¿Õ×´Ì¬
+/// TypeCè€³æœºè®¾ç½®æ‚¬ç©ºçŠ¶æ€ï¼ˆå³ï¼šè€³æœºæ‹”å‡ºï¼‰ï¼Œå³è€³æœºçš„å„ä¸ªç®¡è„šéƒ½ç½®å¤„äºæ‚¬ç©ºçŠ¶æ€
 /// </summary>
 /// <returns></returns>
 _declspec(dllexport) int comEarphoneSuspend()
@@ -647,10 +796,10 @@ _declspec(dllexport) int comEarphoneSuspend()
 }
 
 /// <summary>
-/// TypeC¶ú»úÕı²å²âÊÔ
-/// ½«¶ú»ú¸÷¸ö¹Ü½ÅÉèÖÃÎªÕı²å×´Ì¬£¨¼´£ºÕı²å½ÓÈëTypeC¶ú»ú£©
+/// TypeCè€³æœºæ­£æ’æµ‹è¯•
+/// å°†è€³æœºå„ä¸ªç®¡è„šè®¾ç½®ä¸ºæ­£æ’çŠ¶æ€ï¼ˆå³ï¼šæ­£æ’æ¥å…¥TypeCè€³æœºï¼‰
 /// </summary>
-/// <returns>0£ºPass; ·Ç0£ºÊ§°Ü</returns>
+/// <returns>0ï¼šPass; é0ï¼šå¤±è´¥</returns>
 _declspec(dllexport) int comEarphoneInsertTestTop()
 {
 	string ret = TestCommand("[]earphone insert(top)\r\n");
@@ -660,10 +809,10 @@ _declspec(dllexport) int comEarphoneInsertTestTop()
 
 
 /// <summary>
-/// TypeC¶ú»ú·´²å²âÊÔ
-/// ½«¶ú»ú¸÷¸ö¹Ü½ÅÉèÖÃÎª·´²å×´Ì¬£¨¼´£º·´²å½ÓÈëTypeC¶ú»ú£©
+/// TypeCè€³æœºåæ’æµ‹è¯•
+/// å°†è€³æœºå„ä¸ªç®¡è„šè®¾ç½®ä¸ºåæ’çŠ¶æ€ï¼ˆå³ï¼šåæ’æ¥å…¥TypeCè€³æœºï¼‰
 /// </summary>
-/// <returns>0£ºPass; ·Ç0£ºÊ§°Ü</returns>
+/// <returns>0ï¼šPass; é0ï¼šå¤±è´¥</returns>
 _declspec(dllexport) int comEarphoneInsertTestBot()
 {
 	string ret = TestCommand("[]earphone insert(bot)\r\n");
@@ -673,16 +822,36 @@ _declspec(dllexport) int comEarphoneInsertTestBot()
 
 
 /// <summary>
-/// TypeC¶ú»ú°´¼ü²âÊÔ
+/// TypeCè€³æœºæŒ‰é”®æµ‹è¯•
 /// </summary>
-/// <param name="pressTime">¶ú»ú°´¼ü°´ÏÂ²¢±£³Ö°´×¡µÄÊ±¼ä£¬µ¥Î»£ººÁÃë</param>
-/// <returns>0£ºPass; ·Ç0£ºÊ§°Ü</returns>
+/// <param name="pressTime">è€³æœºæŒ‰é”®æŒ‰ä¸‹å¹¶ä¿æŒæŒ‰ä½çš„æ—¶é—´ï¼Œå•ä½ï¼šæ¯«ç§’</param>
+/// <returns>0ï¼šPass; é0ï¼šå¤±è´¥</returns>
 _declspec(dllexport) int comEarphonePressKeyTest(int pressTime)
 {
 	char cmd[100]{};
 	//const char* linkrate = linkRate.c_str();
 
 	sprintf_s(cmd, 100, "[]earphone presstime(%d)\r\n", pressTime);
+	//cout << cmd << endl;
+
+	const char* real_cmd = cmd;
+	string ret = TestCommand(real_cmd);
+
+	return 0;
+}
+
+
+/// <summary>
+/// TypeCè€³æœºå·¦å³å£°é“æµ‹è¯•
+/// </summary>
+/// <param name="right_or_left">å·¦å³å£°é“</param>
+/// <returns>0ï¼šPass; é0ï¼šå¤±è´¥</returns>
+_declspec(dllexport) int comEarphoneLoopbackTest(char* right_or_left)
+{
+	char cmd[100]{};
+	//const char* linkrate = linkRate.c_str();
+
+	sprintf_s(cmd, 100, "[]hp loopback connect(%s)\r\n", right_or_left);
 	//cout << cmd << endl;
 
 	const char* real_cmd = cmd;

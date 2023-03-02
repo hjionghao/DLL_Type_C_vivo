@@ -138,7 +138,10 @@ _declspec(dllexport) int TypeCTestTop(int usbVer)
 	}
 	else if (2 == usbVer)
 	{
-		string ret_usb2_0_top = TestCommandResult(sockclient, "[3]otg usb2_0 test(top)\r\n");
+		char cmd[100]{};
+		sprintf_s(cmd, 100, "[3]otg usb2_0 test(top)\r\n");
+		const char* real_cmd = cmd;
+		string ret_usb2_0_top = TestCommandResult(sockclient, real_cmd);
 		int ret_find = ret_usb2_0_top.find("PASS");
 		if (ret_find == string::npos)
 			return -12;
@@ -147,7 +150,10 @@ _declspec(dllexport) int TypeCTestTop(int usbVer)
 	}
 	else if (3 == usbVer)
 	{
-		string ret_usb3_0_top = TestCommandResult(sockclient, "[4]otg usb3_0 test(top)\r\n");
+		char cmd[100]{};
+		sprintf_s(cmd, 100, "[4]otg usb3_0 test(top)\r\n");
+		const char* real_cmd = cmd;
+		string ret_usb3_0_top = TestCommandResult(sockclient, real_cmd);
 		int ret_find = ret_usb3_0_top.find("PASS");
 		if (ret_find == string::npos)
 			return -13;
@@ -198,7 +204,10 @@ _declspec(dllexport) int TypeCTestBot(int usbVer)
 	}
 	else if (2 == usbVer)
 	{
-		string ret_usb2_0_bot = TestCommandResult(sockclient, "[7]otg usb2_0 test(bot)\r\n");
+		char cmd[100]{};
+		sprintf_s(cmd, 100, "[7]otg usb2_0 test(bot)\r\n");
+		const char* real_cmd = cmd;
+		string ret_usb2_0_bot = TestCommandResult(sockclient, real_cmd);
 		int ret_find = ret_usb2_0_bot.find("PASS");
 		if (ret_find == string::npos)
 			return -14;
@@ -207,7 +216,10 @@ _declspec(dllexport) int TypeCTestBot(int usbVer)
 	}
 	else if (3 == usbVer)
 	{
-		string ret_usb3_0_bot = TestCommandResult(sockclient, "[8]otg usb3_0 test(bot)\r\n");
+		char cmd[100]{};
+		sprintf_s(cmd, 100, "[8]otg usb3_0 test(bot)\r\n");
+		const char* real_cmd = cmd;
+		string ret_usb3_0_bot = TestCommandResult(sockclient, real_cmd);
 		int ret_find = ret_usb3_0_bot.find("PASS");
 		if (ret_find == string::npos)
 			return -15;

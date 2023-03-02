@@ -51,8 +51,10 @@ extern "C" {
 
 	_declspec(dllexport) bool connet_port(int port); //port: serial port
 	_declspec(dllexport) const char* fw_version();
-	_declspec(dllexport) int comTypeCTestTop(int usbVer, char* usb_debug_info);
-	_declspec(dllexport) int comTypeCTestBot(int usbVer, char* usb_debug_info);
+	//_declspec(dllexport) int comTypeCTestTop(int usbVer, int delay_ms);
+	//_declspec(dllexport) int comTypeCTestBot(int usbVer, int delay_ms);
+	_declspec(dllexport) int comTypeCTestTop(int usbVer);
+	_declspec(dllexport) int comTypeCTestBot(int usbVer);
 	_declspec(dllexport) int comDisplayPortTopTest(const char* linkRate, int laneCount, double* resolution_X, double* resolution_Y, double* frameRate, char* dp_debug_info);
 	_declspec(dllexport) int comDisplayPortBotTest(const char* linkRate, int laneCount, double* resolution_X, double* resolution_Y, double* frameRate, char* dp_debug_info);
 	_declspec(dllexport) int comPDSinkVBusTestTop(int eLoadCurrent, int* current, int* voltage, int delay_ms);
@@ -62,4 +64,5 @@ extern "C" {
 	_declspec(dllexport) int comEarphoneInsertTestTop();
 	_declspec(dllexport) int comEarphoneInsertTestBot();
 	_declspec(dllexport) int comEarphonePressKeyTest(int pressTime);
+	_declspec(dllexport) int comEarphoneLoopbackTest(char* right_or_left);
 }
