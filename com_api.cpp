@@ -839,23 +839,3 @@ _declspec(dllexport) int comEarphonePressKeyTest(int pressTime)
 
 	return 0;
 }
-
-
-/// <summary>
-/// TypeC耳机左右声道测试
-/// </summary>
-/// <param name="right_or_left">左右声道</param>
-/// <returns>0：Pass; 非0：失败</returns>
-_declspec(dllexport) int comEarphoneLoopbackTest(char* right_or_left)
-{
-	char cmd[100]{};
-	//const char* linkrate = linkRate.c_str();
-
-	sprintf_s(cmd, 100, "[]hp loopback connect(%s)\r\n", right_or_left);
-	//cout << cmd << endl;
-
-	const char* real_cmd = cmd;
-	string ret = TestCommand(real_cmd);
-
-	return 0;
-}

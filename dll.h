@@ -64,5 +64,4 @@ extern "C" {
 	_declspec(dllexport) int comEarphoneInsertTestTop();
 	_declspec(dllexport) int comEarphoneInsertTestBot();
 	_declspec(dllexport) int comEarphonePressKeyTest(int pressTime);
-	_declspec(dllexport) int comEarphoneLoopbackTest(char* right_or_left);
 }
