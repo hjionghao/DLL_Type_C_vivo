@@ -2,18 +2,18 @@
 
 CONNET_PORT cport;
 
-_declspec(dllexport) bool connet_port(int port)
+_declspec(dllexport) int connet_port(int port)
 {
     if (!cport.OpenPort(port))
     {
         cout << "OpenPort COM" << port << " fail!" << endl;
-        return false;
+        return -1;
     }
 
     if (!cport.SetupDCB(115200))
     {
         cout << "SetupDCB fail!" << endl;
-        return false;
+        return -1;
     }
 
     if (!cport.SetupTimeout(0, 0, 3000, 0, 0))
@@ -807,7 +807,6 @@ _declspec(dllexport) int comEarphoneInsertTestTop()
 	return 0;
 }
 
-
 /// <summary>
 /// TypeC耳机反插测试
 /// 将耳机各个管脚设置为反插状态（即：反插接入TypeC耳机）
@@ -819,7 +818,6 @@ _declspec(dllexport) int comEarphoneInsertTestBot()
 
 	return 0;
 }
-
 
 /// <summary>
 /// TypeC耳机按键测试
@@ -840,18 +838,37 @@ _declspec(dllexport) int comEarphonePressKeyTest(int pressTime)
 	return 0;
 }
 
-
 /// <summary>
-/// TypeC耳机左右声道测试
+/// TypeC耳机左右声道正插测试
 /// </summary>
 /// <param name="right_or_left">左右声道</param>
 /// <returns>0：Pass; 非0：失败</returns>
-_declspec(dllexport) int comEarphoneLoopbackTest(char* right_or_left)
+_declspec(dllexport) int comEarphoneLoopbackTestTop(char* right_or_left)
 {
 	char cmd[100]{};
 	//const char* linkrate = linkRate.c_str();
 
-	sprintf_s(cmd, 100, "[]hp loopback connect(%s)\r\n", right_or_left);
+	sprintf_s(cmd, 100, "[]hp loopback connect(top, %s)\r\n", right_or_left);
+	//cout << cmd << endl;
+
+	const char* real_cmd = cmd;
+	string ret = TestCommand(real_cmd);
+
+	return 0;
+}
+
+
+/// <summary>
+/// TypeC耳机左右声道反插测试
+/// </summary>
+/// <param name="right_or_left">左右声道</param>
+/// <returns>0：Pass; 非0：失败</returns>
+_declspec(dllexport) int comEarphoneLoopbackTestBot(char* right_or_left)
+{
+	char cmd[100]{};
+	//const char* linkrate = linkRate.c_str();
+
+	sprintf_s(cmd, 100, "[]hp loopback connect(bot, %s)\r\n", right_or_left);
 	//cout << cmd << endl;
 
 	const char* real_cmd = cmd;

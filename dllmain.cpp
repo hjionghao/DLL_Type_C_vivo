@@ -48,12 +48,12 @@ _declspec(dllexport) int Connect(const char* IPAdrress, int port)
 	int iRetVal = connect(sockclient, (struct sockaddr*)&addr, sizeof(addr));
 	if (SOCKET_ERROR == iRetVal)
 	{
-		cout << "服务器连接失败！" << endl;
+		cout << "Server connection failed!\n" << endl;
 		closesocket(sockclient);
 		return -1;
 	}
 	
-	cout << "服务器连接成功！\n" << endl;
+	cout << "Server connection succeeded!\n" << endl;
 	return 0;
 	//return sockclient;
 }
@@ -71,7 +71,7 @@ _declspec(dllexport) int DisConnect()
 	//cout << ret_socket << endl;
 	if (0 == ret_socket)
 	{
-		cout << "服务器断开成功！\n" << endl;
+		cout << "Server disconnected successfully!\n" << endl;
 		return 0;
 	}
 	else
@@ -240,9 +240,9 @@ _declspec(dllexport) int TypeCTestBot(int usbVer)
 		/// </summary>
 		/// <param name="linkRate">LinkRate</param>
 		/// <param name="laneCount">LaneCount</param>
-		/// <sparam name="resolution_X">输出视频最大分辨率的水平分辨率值</param>
-		/// <param name="resolution_Y">输出视频最大分辨率的垂直分辨率值</param>
-		/// <param name="frameRate">输出视频最大帧率值</param>
+		/// <sparam name="resolution_X">视频的水平分辨率值</param>
+		/// <param name="resolution_Y">视频的垂直分辨率值</param>
+		/// <param name="frameRate">视频帧率值</param>
 		/// <returns>0：Pass; 非0：失败</returns>
 		public int DisplayPortTopTest(LinkeRate linkRate,int laneCount, out double resolution_X, out double resolution_Y, out double frameRate);
 */
@@ -307,9 +307,9 @@ _declspec(dllexport) int DisplayPortTopTest(const char* linkRate, int laneCount,
 		/// </summary>
 		/// <param name="linkRate">LinkRate</param>
 		/// <param name="laneCount">LaneCount</param>
-		/// <param name="resolution_X">输出视频最大分辨率的水平分辨率值</param>
-		/// <param name="resolution_Y">输出视频最大分辨率的垂直分辨率值</param>
-		/// <param name="frameRate">输出视频最大帧率值</param>
+		/// <param name="resolution_X">视频的水平分辨率值</param>
+		/// <param name="resolution_Y">视频的垂直分辨率值</param>
+		/// <param name="frameRate">视频帧率值</param>
 		/// <returns>0：Pass; 非0：失败</returns>
 		public int DisplayPortBotTest(LinkeRate linkRate, int laneCount, out double resolution_X, out double resolution_Y, out double frameRate);
 */
@@ -622,7 +622,6 @@ _declspec(dllexport) int EarphoneInsertTestBot()
 	return 0;
 }
 
-
 /// <summary>
 /// TypeC耳机按键测试
 /// </summary>
@@ -642,8 +641,53 @@ _declspec(dllexport) int EarphonePressKeyTest(int pressTime)
 	return 0;
 }
 
+/// <summary>
+/// TypeC耳机左右声道正插测试
+/// </summary>
+/// <param name="right_or_left">左右声道</param>
+/// <returns>0：Pass; 非0：失败</returns>
+_declspec(dllexport) int EarphoneLoopbackTestTop(char* right_or_left)
+{
+	char cmd[100]{};
+	//const char* linkrate = linkRate.c_str();
+
+	sprintf_s(cmd, 100, "[]hp loopback connect(top, %s)\r\n", right_or_left);
+	//cout << cmd << endl;
+
+	const char* real_cmd = cmd;
+	string ret = TestCommandResult(sockclient, real_cmd);
+
+	return 0;
+}
+
+/// <summary>
+/// TypeC耳机左右声道反插测试
+/// </summary>
+/// <param name="right_or_left">左右声道</param>
+/// <returns>0：Pass; 非0：失败</returns>
+_declspec(dllexport) int EarphoneLoopbackTestBot(char* right_or_left)
+{
+	char cmd[100]{};
+	//const char* linkrate = linkRate.c_str();
+
+	sprintf_s(cmd, 100, "[]hp loopback connect(bot, %s)\r\n", right_or_left);
+	//cout << cmd << endl;
+
+	const char* real_cmd = cmd;
+	string ret = TestCommandResult(sockclient, real_cmd);
+
+	return 0;
+}
+
 _declspec(dllexport) int HelloWorldPrintf()
 {
 	cout << "1234 Hello World!" << endl;
 	return 0;
+}
+
+_declspec(dllexport) const char* dll_version()
+{
+	const char* dll_version = "V1.0";
+
+	return dll_version;
 }

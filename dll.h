@@ -32,6 +32,7 @@ string TestCommand(const char* cmd);
 
 extern "C" {
 	//_declspec(dllexport) const char* FwVersion();
+	_declspec(dllexport) const char* dll_version();
 	_declspec(dllexport) int Connect(const char* IPAdrress, int port);
 	//_declspec(dllexport) int Connect();
 	_declspec(dllexport) int DisConnect();
@@ -46,10 +47,12 @@ extern "C" {
 	_declspec(dllexport) int EarphoneInsertTestTop();
 	_declspec(dllexport) int EarphoneInsertTestBot();
 	_declspec(dllexport) int EarphonePressKeyTest(int pressTime);
+	_declspec(dllexport) int EarphoneLoopbackTestTop(char* right_or_left);
+	_declspec(dllexport) int EarphoneLoopbackTestBot(char* right_or_left);
 
 	_declspec(dllexport) int HelloWorldPrintf();
 
-	_declspec(dllexport) bool connet_port(int port); //port: serial port
+	_declspec(dllexport) int connet_port(int port); //port: serial port
 	_declspec(dllexport) const char* fw_version();
 	//_declspec(dllexport) int comTypeCTestTop(int usbVer, int delay_ms);
 	//_declspec(dllexport) int comTypeCTestBot(int usbVer, int delay_ms);
@@ -64,5 +67,6 @@ extern "C" {
 	_declspec(dllexport) int comEarphoneInsertTestTop();
 	_declspec(dllexport) int comEarphoneInsertTestBot();
 	_declspec(dllexport) int comEarphonePressKeyTest(int pressTime);
-	_declspec(dllexport) int comEarphoneLoopbackTest(char* right_or_left);
+	_declspec(dllexport) int comEarphoneLoopbackTestTop(char* right_or_left);
+	_declspec(dllexport) int comEarphoneLoopbackTestBot(char* right_or_left);
 }
