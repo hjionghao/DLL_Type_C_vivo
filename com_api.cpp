@@ -557,43 +557,43 @@ _declspec(dllexport) int comPDSinkVBusTestTop(int eLoadCurrent, int* current, in
 	string ret_pd_sink_bot = TestCommand(real_cmd);
 	//cout << ret_pd_sink_bot << endl;
 
-	//int ret_find = ret_pd_sink_bot.find("PASS");
-	//if (ret_find == string::npos)
-	//	return -18;
-	//else
-	//{
-	char* data;
-	int len = ret_pd_sink_bot.length();
-	data = (char*)malloc((len + 1) * sizeof(char));
-	ret_pd_sink_bot.copy(data, len, 0);
-
-	const char* separator = ":\ \"m";
-	char* ret_strtok;
-	char* buf;
-	ret_strtok = strtok_s(data, separator, &buf);
-
-	int index = 0;
-	while (ret_strtok)
+	int ret_find = ret_pd_sink_bot.find("PASS");
+	if (ret_find == string::npos)
+		return -18;
+	else
 	{
-		//cout << ret_strtok << endl;
-		//cout << index << endl;
-		if (2 == index)
-		{
-			*current = atof(ret_strtok);
-			//cout << *current << endl;
-		}
-		if (6 == index)
-		{
-			*voltage = atof(ret_strtok);
-			//cout << *voltage << endl;
-		}
+		char* data;
+		int len = ret_pd_sink_bot.length();
+		data = (char*)malloc((len + 1) * sizeof(char));
+		ret_pd_sink_bot.copy(data, len, 0);
 
-		//p = strtok(NULL, d);
-		ret_strtok = strtok_s(NULL, separator, &buf);
-		index += 1;
+		const char* separator = ":\ \"m";
+		char* ret_strtok;
+		char* buf;
+		ret_strtok = strtok_s(data, separator, &buf);
+
+		int index = 0;
+		while (ret_strtok)
+		{
+			//cout << ret_strtok << endl;
+			//cout << index << endl;
+			if (2 == index)
+			{
+				*current = atof(ret_strtok);
+				//cout << *current << endl;
+			}
+			if (6 == index)
+			{
+				*voltage = atof(ret_strtok);
+				//cout << *voltage << endl;
+			}
+
+			//p = strtok(NULL, d);
+			ret_strtok = strtok_s(NULL, separator, &buf);
+			index += 1;
+		}
+		free(data);
 	}
-	free(data);
-	//}
 	return 0;
 }
 
@@ -620,43 +620,43 @@ _declspec(dllexport) int comPDSinkVBusTestBot(int eLoadCurrent, int* current, in
 	string ret_pd_sink_bot = TestCommand(real_cmd);
 	//cout << ret_pd_sink_bot << endl;
 
-	//int ret_find = ret_pd_sink_bot.find("PASS");
-	//if (ret_find == string::npos)
-	//	return -19;
-	//else
-	//{
-	char* data;
-	int len = ret_pd_sink_bot.length();
-	data = (char*)malloc((len + 1) * sizeof(char));
-	ret_pd_sink_bot.copy(data, len, 0);
-
-	const char* separator = ":\ \"m";
-	char* ret_strtok;
-	char* buf;
-	ret_strtok = strtok_s(data, separator, &buf);
-
-	int index = 0;
-	while (ret_strtok)
+	int ret_find = ret_pd_sink_bot.find("PASS");
+	if (ret_find == string::npos)
+		return -19;
+	else
 	{
-		//cout << index << endl;
-		//cout << ret_strtok << endl;
-		if (2 == index)
-		{
-			*current = atof(ret_strtok);
-			//cout << *current << endl;
-		}
-		if (6 == index)
-		{
-			*voltage = atof(ret_strtok);
-			//cout << *voltage << endl;
-		}
+		char* data;
+		int len = ret_pd_sink_bot.length();
+		data = (char*)malloc((len + 1) * sizeof(char));
+		ret_pd_sink_bot.copy(data, len, 0);
 
-		//p = strtok(NULL, d);
-		ret_strtok = strtok_s(NULL, separator, &buf);
-		index += 1;
+		const char* separator = ":\ \"m";
+		char* ret_strtok;
+		char* buf;
+		ret_strtok = strtok_s(data, separator, &buf);
+
+		int index = 0;
+		while (ret_strtok)
+		{
+			//cout << index << endl;
+			//cout << ret_strtok << endl;
+			if (2 == index)
+			{
+				*current = atof(ret_strtok);
+				//cout << *current << endl;
+			}
+			if (6 == index)
+			{
+				*voltage = atof(ret_strtok);
+				//cout << *voltage << endl;
+			}
+
+			//p = strtok(NULL, d);
+			ret_strtok = strtok_s(NULL, separator, &buf);
+			index += 1;
+		}
+		free(data);
 	}
-	free(data);
-	//}
 	return 0;
 }
 
