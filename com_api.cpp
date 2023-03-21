@@ -46,7 +46,7 @@ string TestCommand(const char* cmd)
 	while (1)
 	{
 		ret_str = cport.ReciveChar();
-		int ret_find = ret_str.find("DONE");
+		int ret_find = ret_str.find("ACK");
 		if (ret_find == string::npos)
 			continue;
 		else
