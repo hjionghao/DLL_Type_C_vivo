@@ -91,13 +91,12 @@ _declspec(dllexport) const char* fw_version()
 		public int comTypeCTestTop(TypeC_Flag flag);
 */
 
-_declspec(dllexport) int comTypeCTestTop(int usbVer, char* usb_debug_info)
+_declspec(dllexport) int comTypeCTestTop(int usbVer)
 {
 	// 判断入口参数；
 
 
 	int pin_test_flag = 0;
-	char top_debug_info[200]{};
 
 	if (1 == usbVer)
 	{
@@ -122,9 +121,6 @@ _declspec(dllexport) int comTypeCTestTop(int usbVer, char* usb_debug_info)
 	{
 		string ret_usb2_0_top = TestCommand("[3]otg usb2_0 test(top)\r\n");
 
-		sprintf_s(top_debug_info, 200, "%s\r\n", ret_usb2_0_top);
-		strncpy_s(usb_debug_info, 200, top_debug_info, (strlen(top_debug_info) + 1));
-
 		int ret_find = ret_usb2_0_top.find("PASS");
 		if (ret_find == string::npos)
 			return -12;
@@ -135,10 +131,6 @@ _declspec(dllexport) int comTypeCTestTop(int usbVer, char* usb_debug_info)
 	{
 		string ret_usb3_0_top = TestCommand("[4]otg usb3_0 test(top)\r\n");
 
-		sprintf_s(top_debug_info, 200, "%s\r\n", ret_usb3_0_top);
-		strncpy_s(usb_debug_info, 200, top_debug_info, (strlen(top_debug_info) + 1));
-
-		//cout << usb_debug_info << endl;
 		int ret_find = ret_usb3_0_top.find("PASS");
 		if (ret_find == string::npos)
 			return -13;
@@ -162,12 +154,11 @@ _declspec(dllexport) int comTypeCTestTop(int usbVer, char* usb_debug_info)
 		/// <returns>0：Pass; 非0：失败</returns>
 		public int comTypeCTestBot(TypeC_Flag flag);
 */
-_declspec(dllexport) int comTypeCTestBot(int usbVer, char* usb_debug_info)
+_declspec(dllexport) int comTypeCTestBot(int usbVer)
 {
 	// 判断入口参数；
 
 	int pin_test_flag = 0;
-	char bot_debug_info[200]{};
 
 	if (1 == usbVer)
 	{
@@ -192,9 +183,6 @@ _declspec(dllexport) int comTypeCTestBot(int usbVer, char* usb_debug_info)
 	{
 		string ret_usb2_0_bot = TestCommand("[7]otg usb2_0 test(bot)\r\n");
 
-		sprintf_s(bot_debug_info, 200, "%s\r\n", ret_usb2_0_bot);
-		strncpy_s(usb_debug_info, 200, bot_debug_info, (strlen(bot_debug_info) + 1));
-
 		int ret_find = ret_usb2_0_bot.find("PASS");
 		if (ret_find == string::npos)
 			return -14;
@@ -205,10 +193,6 @@ _declspec(dllexport) int comTypeCTestBot(int usbVer, char* usb_debug_info)
 	{
 		string ret_usb3_0_bot = TestCommand("[8]otg usb3_0 test(bot)\r\n");
 
-		sprintf_s(bot_debug_info, 200, "%s\r\n", ret_usb3_0_bot);
-		strncpy_s(usb_debug_info, 200, bot_debug_info, (strlen(bot_debug_info) + 1));
-
-		//cout << ret_usb3_0_bot << endl;
 		int ret_find = ret_usb3_0_bot.find("PASS");
 		if (ret_find == string::npos)
 			return -15;
